@@ -4,8 +4,7 @@
       <div class="row">
         <div class="col-12">
           <AddProducts />
-          <ProductsForm @createProduct="createProduct" />
-          <ProductsTable :products="products" />
+          <ProductsTable :products="products" @createProduct="createProduct" @onDelete="onRemoveHandler"/>
         </div>
       </div>
     </div>
@@ -13,14 +12,12 @@
 </template>
 <script>
 import AddProducts from "@/components/add-products/AddProducts.vue";
-import ProductsForm from "@/components/products-form/ProductsForm.vue";
 import ProductsTable from "@/components/products-table/Products-table.vue";
 export default {
   name: "App",
   components: {
     ProductsTable,
     AddProducts,
-    ProductsForm,
   },
   data() {
     return {
@@ -49,6 +46,9 @@ export default {
   methods: {
     createProduct(item) {
       this.products.push(item);
+    },
+    onRemoveHandler(id) {
+      this.products = this.products.filter((item) => item.id !== id);
     },
   },
 };
