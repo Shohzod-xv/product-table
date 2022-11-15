@@ -8,8 +8,8 @@
 
 <script>
 export default {
-  name: "AddProducts"
-}
+  name: "AddProducts",
+};
 </script>
 
 <style scoped>
@@ -17,7 +17,7 @@ export default {
   margin: 20px;
   padding: 6px;
 }
-.text-add-products{
+.text-add-products {
   color: black;
   border-radius: 10px;
   background-color: aliceblue;

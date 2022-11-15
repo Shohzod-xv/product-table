@@ -5,10 +5,10 @@
         <div class="col-12">
           <AddProducts />
           <ProductsTable
-              :products="onSearchHandler(products, term)"
-              @createProduct="createProduct"
-              @onDelete="onRemoveHandler"
-              :updateTermHandler = "updateTermHandler"
+            :products="onSearchHandler(products, term)"
+            @createProduct="createProduct"
+            @onDelete="onRemoveHandler"
+            :updateTermHandler="updateTermHandler"
           />
         </div>
       </div>
@@ -18,6 +18,8 @@
 <script>
 import AddProducts from "@/components/add-products/AddProducts.vue";
 import ProductsTable from "@/components/products-table/Products-table.vue";
+import axios from "axios";
+
 export default {
   name: "App",
   components: {
@@ -26,27 +28,9 @@ export default {
   },
   data() {
     return {
-      products: [
-        {
-          id: 1,
-          name: "Water",
-          price: 200,
-          store: "Market",
-        },
-        {
-          id: 2,
-          name: "Coca Cola",
-          price: 400,
-          store: "Cola market",
-        },
-        {
-          id: 3,
-          name: "Pepsi Cola",
-          price: 450,
-          store: "Pepsi market",
-        },
-      ],
+      products: [],
       term: "",
+      filter: "all",
     };
   },
   methods: {
@@ -57,16 +41,35 @@ export default {
       this.products = this.products.filter((item) => item.id !== id);
     },
     onSearchHandler(arr, term) {
-      if (term.length == 0) {
-        return arr
+      if (term.length === 0) {
+        return arr;
       }
-      return arr.filter(item => item.name.toLowerCase().indexOf(term) > -1)
+      return arr.filter((item) => item.name.toLowerCase().indexOf(term) > -1);
     },
     updateTermHandler(term) {
-      this.term = term
-    }
+      this.term = term;
+    },
+    async fetchProducts() {
+      try {
+        const { data } = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+        );
+        this.products = data.map((item) => {
+          return {
+            id: item.id,
+            name: item.title,
+            price: item.id * 100,
+            store: "Market",
+          };
+        });
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+  },
+  mounted() {
+    this.fetchProducts();
   },
 };
-
 </script>
 <style scoped></style>
