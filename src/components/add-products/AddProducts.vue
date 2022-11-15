@@ -18,9 +18,7 @@ export default {
   padding: 6px;
 }
 .text-add-products{
-  /*border: aliceblue 1px solid;*/
   color: black;
-  /*box-shadow: grey 0px 0px 10px 0px;*/
   border-radius: 10px;
   background-color: aliceblue;
 }

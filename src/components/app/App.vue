@@ -4,7 +4,12 @@
       <div class="row">
         <div class="col-12">
           <AddProducts />
-          <ProductsTable :products="products" @createProduct="createProduct" @onDelete="onRemoveHandler"/>
+          <ProductsTable
+              :products="onSearchHandler(products, term)"
+              @createProduct="createProduct"
+              @onDelete="onRemoveHandler"
+              :updateTermHandler = "updateTermHandler"
+          />
         </div>
       </div>
     </div>
@@ -24,23 +29,24 @@ export default {
       products: [
         {
           id: 1,
-          name: "Product 1",
-          price: 100,
-          store: "Store 1",
+          name: "Water",
+          price: 200,
+          store: "Market",
         },
         {
           id: 2,
-          name: "Product 2",
-          price: 200,
-          store: "Store 2",
+          name: "Coca Cola",
+          price: 400,
+          store: "Cola market",
         },
         {
           id: 3,
-          name: "Product 3",
-          price: 300,
-          store: "Store 3",
+          name: "Pepsi Cola",
+          price: 450,
+          store: "Pepsi market",
         },
       ],
+      term: "",
     };
   },
   methods: {
@@ -50,7 +56,17 @@ export default {
     onRemoveHandler(id) {
       this.products = this.products.filter((item) => item.id !== id);
     },
+    onSearchHandler(arr, term) {
+      if (term.length == 0) {
+        return arr
+      }
+      return arr.filter(item => item.name.toLowerCase().indexOf(term) > -1)
+    },
+    updateTermHandler(term) {
+      this.term = term
+    }
   },
 };
+
 </script>
 <style scoped></style>
